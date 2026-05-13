@@ -40,11 +40,10 @@ Para probar mi proyecto, sigue estos pasos:
 
 ## Repositorio y Control de Versiones
 He versionado todo el proyecto utilizando Git.
-*(Añada aquí el enlace a su repositorio público en GitHub)*
-`https://github.com/SuUsuario/ProyectoFinal-Programacion`
+`https://github.com/Rucaor120/ProyectoFinal-Programacion`
 
 ## Capturas de WakaTime
-*(Inserte aquí la captura de pantalla o enlace público de su dashboard de WakaTime acreditando un mínimo de 10 horas de trabajo en este proyecto)*
+**
 
 ## Extensiones que he implementado
 - **DTOs Personalizados:** Para evitar mezclar lógica de base de datos en las vistas al requerir datos de varias tablas (como ocurre en el panel de *Compras*), he implementado `CompraDTO` para estructurar la visualización de un JOIN entre `compras`, `usuarios`, `clientes` y `pinturas`.
