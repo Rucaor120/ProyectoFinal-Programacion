@@ -43,7 +43,9 @@ He versionado todo el proyecto utilizando Git.
 `https://github.com/Rucaor120/ProyectoFinal-Programacion`
 
 ## Capturas de WakaTime
-**
+*https://wakatime.com/@433bbf71-494e-4aad-9a11-4e563e554258/projects/deqafkquoe?start=2026-05-08&end=2026-05-14*
+
+![alt text](image.png)
 
 ## Extensiones que he implementado
 - **DTOs Personalizados:** Para evitar mezclar lógica de base de datos en las vistas al requerir datos de varias tablas (como ocurre en el panel de *Compras*), he implementado `CompraDTO` para estructurar la visualización de un JOIN entre `compras`, `usuarios`, `clientes` y `pinturas`.
