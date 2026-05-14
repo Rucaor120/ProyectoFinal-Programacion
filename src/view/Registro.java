@@ -7,23 +7,25 @@ import java.awt.event.ActionListener;
 import dao.UsuarioDAO;
 import dao.UsuarioDAOImpl;
 import model.Cliente;
+import model.Empleado;
 import model.Usuario;
 
 public class Registro extends JFrame {
     private JTextField txtUsername, txtEmail, txtNombre, txtApellidos, txtDni;
     private JPasswordField txtPassword;
-    private JComboBox<String> cbRol, cbTipoCliente;
+    private JComboBox<String> cbRol, cbTipoCliente, cbTurno;
+    private JTextField txtSalario;
     private JButton btnRegistrar, btnCancelar;
     private JPanel panelDinamico;
 
     public Registro() {
         setTitle("Registro - Tienda de Pinturas");
-        setSize(400, 450);
+        setSize(400, 550);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel panel = new JPanel(new GridLayout(10, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(12, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         panel.add(new JLabel("Username:"));
@@ -59,6 +61,19 @@ public class Registro extends JFrame {
         cbTipoCliente = new JComboBox<>(new String[]{"minorista", "mayorista"});
         panel.add(cbTipoCliente);
 
+        // Panel dinámico para Empleado
+        panel.add(new JLabel("Turno:"));
+        cbTurno = new JComboBox<>(new String[]{"mañana", "tarde", "completo"});
+        panel.add(cbTurno);
+
+        panel.add(new JLabel("Salario:"));
+        txtSalario = new JTextField();
+        panel.add(txtSalario);
+
+        // Estado inicial
+        cbTurno.setEnabled(false);
+        txtSalario.setEnabled(false);
+
         btnRegistrar = new JButton("Registrar");
         btnCancelar = new JButton("Cancelar");
 
@@ -71,6 +86,8 @@ public class Registro extends JFrame {
         cbRol.addActionListener(e -> {
             boolean isCliente = cbRol.getSelectedItem().equals("cliente");
             cbTipoCliente.setEnabled(isCliente);
+            cbTurno.setEnabled(!isCliente);
+            txtSalario.setEnabled(!isCliente);
         });
 
         btnCancelar.addActionListener(e -> {
@@ -105,6 +122,18 @@ public class Registro extends JFrame {
             if (rol.equals("cliente")) {
                 String tipoCliente = cbTipoCliente.getSelectedItem().toString();
                 usuario = new Cliente(0, username, password, email, nombre, apellidos, dni, tipoCliente);
+            } else if (rol.equals("empleado")) {
+                String turno = cbTurno.getSelectedItem().toString();
+                double salario = 1500.0;
+                try {
+                    if (!txtSalario.getText().trim().isEmpty()) {
+                        salario = Double.parseDouble(txtSalario.getText().trim());
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "El salario debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                usuario = new Empleado(0, username, password, email, nombre, apellidos, dni, turno, salario);
             } else {
                 usuario = new Usuario(0, username, password, email, nombre, apellidos, dni, rol);
             }

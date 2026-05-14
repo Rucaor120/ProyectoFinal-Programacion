@@ -22,7 +22,7 @@ public class CompraDAOImpl implements CompraDAO {
             ps.setDate(3, compra.getFecha());
             ps.setInt(4, compra.getCantidad());
             ps.setDouble(5, compra.getPrecioTotal());
-            return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0; /* si la sentencia no devuelve nada executeUpdate devuelve 0, si no, devuelve el numero de la fila creada. Si el resultado es 0 devuelve false lo que quiere decir es que ha fallado la insercion */
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -30,7 +30,7 @@ public class CompraDAOImpl implements CompraDAO {
     }
 
     @Override
-    public List<CompraDTO> listarTodos() {
+    public List<CompraDTO> listarTodos() { /* me devuelve una lista de objetos de la clase compradto */
         List<CompraDTO> lista = new ArrayList<>();
         String sql = "SELECT c.id, u.nombre AS nombreCliente, u.apellidos AS apellidosCliente, " +
                      "cl.tipo_cliente, " +

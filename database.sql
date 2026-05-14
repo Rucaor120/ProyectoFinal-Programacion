@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
-    dni VARCHAR(20) NOT NULL UNIQUE,
+    dni VARCHAR(9) NOT NULL UNIQUE,
     rol ENUM('cliente', 'empleado') NOT NULL DEFAULT 'cliente'
 );
 

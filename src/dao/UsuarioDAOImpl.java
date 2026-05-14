@@ -75,12 +75,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                     ps2.setString(2, ((Cliente)usuario).getTipoCliente());
                     ps2.executeUpdate();
                 }
-            } else if (usuarioId > 0 && "empleado".equals(usuario.getRol())) {
+            } else if (usuario instanceof Empleado && usuarioId > 0) {
+                Empleado emp = (Empleado) usuario;
                 String sqlEmpleado = "INSERT INTO empleados (usuario_id, turno, salario) VALUES (?, ?, ?)";
                 try (PreparedStatement ps3 = con.prepareStatement(sqlEmpleado)) {
                     ps3.setInt(1, usuarioId);
-                    ps3.setString(2, "completo");
-                    ps3.setDouble(3, 1500.00); // Salario base por defecto
+                    ps3.setString(2, emp.getTurno());
+                    ps3.setDouble(3, emp.getSalario());
                     ps3.executeUpdate();
                 }
             }

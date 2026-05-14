@@ -36,7 +36,7 @@ public class Principal extends JFrame {
         
         cargarModulo("Pinturas");
     }
-
+    
     private void crearMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuSesion = new JMenu("Sesión");
