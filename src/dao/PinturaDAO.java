@@ -8,4 +8,5 @@ public interface PinturaDAO {
     boolean actualizar(Pintura pintura);
     List<Pintura> listarTodos();
     boolean eliminar(int id);
+    boolean actualizarStock(int id, int cantidadComprada);
 }

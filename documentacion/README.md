@@ -48,3 +48,4 @@ He versionado todo el proyecto utilizando Git.
 ## Extensiones que he implementado
 - **DTOs Personalizados:** Para evitar mezclar lógica de base de datos en las vistas al requerir datos de varias tablas (como ocurre en el panel de *Compras*), he implementado `CompraDTO` para estructurar la visualización de un JOIN entre `compras`, `usuarios`, `clientes` y `pinturas`.
 - **Transacciones Atómicas:** En el registro de clientes/empleados he asegurado la integridad referencial gestionando manualmente las transacciones con `con.setAutoCommit(false)`, `con.commit()` y `con.rollback()`.
+

@@ -81,4 +81,19 @@ public class PinturaDAOImpl implements PinturaDAO {
             return false;
         }
     }
+
+    @Override
+    public boolean actualizarStock(int id, int cantidadComprada) {
+        String sql = "UPDATE pinturas SET stock = stock - ? WHERE id = ? AND stock >= ?";
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cantidadComprada);
+            ps.setInt(2, id);
+            ps.setInt(3, cantidadComprada);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
