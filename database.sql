@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS tiendapinturas;
 USE tiendapinturas;
 
--- Tabla raíz de usuarios (OBLIGATORIA)
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -13,14 +12,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
     rol ENUM('cliente', 'empleado') NOT NULL DEFAULT 'cliente'
 );
 
--- Tabla hija 1 (Joined Table Inheritance)
 CREATE TABLE IF NOT EXISTS clientes (
     usuario_id INT PRIMARY KEY,
     tipo_cliente ENUM('minorista', 'mayorista') NOT NULL DEFAULT 'minorista',
     CONSTRAINT fk_cli FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- Tabla hija 2 (Joined Table Inheritance)
 CREATE TABLE IF NOT EXISTS empleados (
     usuario_id INT PRIMARY KEY,
     turno ENUM('mañana', 'tarde', 'completo') NOT NULL DEFAULT 'completo',
