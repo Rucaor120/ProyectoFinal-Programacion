@@ -33,6 +33,7 @@ public class CompraDAOImpl implements CompraDAO {
     public List<CompraDTO> listarTodos() {
         List<CompraDTO> lista = new ArrayList<>();
         String sql = "SELECT c.id, u.nombre AS nombreCliente, u.apellidos AS apellidosCliente, " +
+                     "cl.tipo_cliente, " +
                      "p.nombre AS nombrePintura, c.fecha, c.cantidad, c.precio_total " +
                      "FROM compras c " +
                      "JOIN clientes cl ON c.cliente_id = cl.usuario_id " +
@@ -47,6 +48,7 @@ public class CompraDAOImpl implements CompraDAO {
                 lista.add(new CompraDTO(
                     rs.getInt("id"),
                     nombreCompleto,
+                    rs.getString("tipo_cliente"),
                     rs.getString("nombrePintura"),
                     rs.getDate("fecha"),
                     rs.getInt("cantidad"),

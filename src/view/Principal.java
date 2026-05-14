@@ -24,7 +24,7 @@ public class Principal extends JFrame {
     public Principal(Usuario usuario) {
         this.usuarioActual = usuario;
         setTitle("Dashboard - Tienda de Pinturas | Usuario: " + usuario.getUsername() + " (" + usuario.getRol() + ")");
-        setSize(900, 600);
+        setSize(1050, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -114,11 +114,18 @@ public class Principal extends JFrame {
             construirFormularioPinturas();
         } else if (modulo.equals("Compras")) {
             if ("empleado".equals(usuarioActual.getRol())) {
-                modeloTabla.setColumnIdentifiers(new String[]{"ID Compra", "Cliente", "Pintura", "Fecha", "Cantidad", "Total"});
+                modeloTabla.setColumnIdentifiers(new String[]{"ID Compra", "Cliente", "Tipo Cliente", "Pintura", "Fecha", "Cantidad", "Total"});
                 List<CompraDTO> lista = compraDAO.listarTodos();
                 for (CompraDTO c : lista) {
-                    modeloTabla.addRow(new Object[]{c.getId(), c.getNombreCliente(), c.getNombrePintura(), c.getFecha(), c.getCantidad(), c.getPrecioTotal()});
+                    modeloTabla.addRow(new Object[]{c.getId(), c.getNombreCliente(), c.getTipoCliente(), c.getNombrePintura(), c.getFecha(), c.getCantidad(), c.getPrecioTotal()});
                 }
+                tabla.getColumnModel().getColumn(0).setPreferredWidth(70);
+                tabla.getColumnModel().getColumn(1).setPreferredWidth(120);
+                tabla.getColumnModel().getColumn(2).setPreferredWidth(120);
+                tabla.getColumnModel().getColumn(3).setPreferredWidth(150);
+                tabla.getColumnModel().getColumn(4).setPreferredWidth(80);
+                tabla.getColumnModel().getColumn(5).setPreferredWidth(60);
+                tabla.getColumnModel().getColumn(6).setPreferredWidth(60);
             } else {
                 modeloTabla.setColumnIdentifiers(new String[]{"Ticket", "Pintura", "Fecha", "Cantidad", "Total"});
                 List<CompraDTO> lista = compraDAO.listarTodos();
@@ -131,11 +138,25 @@ public class Principal extends JFrame {
             }
             construirFormularioCompras();
         } else if (modulo.equals("Usuarios")) {
-            modeloTabla.setColumnIdentifiers(new String[]{"ID", "Username", "Nombre", "Email", "Rol"});
+            modeloTabla.setColumnIdentifiers(new String[]{"ID", "Username", "Nombre", "Email", "Rol", "Detalle Adicional"});
             List<Usuario> lista = usuarioDAO.listarTodos();
             for (Usuario u : lista) {
-                modeloTabla.addRow(new Object[]{u.getId(), u.getUsername(), u.getNombre(), u.getEmail(), u.getRol()});
+                String detalle = "N/A";
+                if (u instanceof Cliente) {
+                    detalle = "Cliente: " + ((Cliente) u).getTipoCliente();
+                } else if (u instanceof Empleado) {
+                    detalle = "Turno: " + ((Empleado) u).getTurno() + " ($" + ((Empleado) u).getSalario() + ")";
+                }
+                modeloTabla.addRow(new Object[]{u.getId(), u.getUsername(), u.getNombre(), u.getEmail(), u.getRol(), detalle});
             }
+            
+            tabla.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tabla.getColumnModel().getColumn(4).setPreferredWidth(70);
+            tabla.getColumnModel().getColumn(5).setPreferredWidth(200);
+            
             panelFormulario.add(new JLabel("Edición de usuarios desde BD."));
         }
 

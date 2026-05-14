@@ -10,6 +10,7 @@ import java.util.List;
 import db.ConexionDB;
 import model.Usuario;
 import model.Cliente;
+import model.Empleado;
 
 public class UsuarioDAOImpl implements UsuarioDAO {
 
@@ -111,21 +112,50 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public List<Usuario> listarTodos() {
         List<Usuario> lista = new ArrayList<>();
-        String sql = "SELECT * FROM usuarios";
+        String sql = "SELECT u.*, c.tipo_cliente, e.turno, e.salario " +
+                     "FROM usuarios u " +
+                     "LEFT JOIN clientes c ON u.id = c.usuario_id " +
+                     "LEFT JOIN empleados e ON u.id = e.usuario_id";
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                lista.add(new Usuario(
-                    rs.getInt("id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("email"),
-                    rs.getString("nombre"),
-                    rs.getString("apellidos"),
-                    rs.getString("dni"),
-                    rs.getString("rol")
-                ));
+                String rol = rs.getString("rol");
+                if ("cliente".equalsIgnoreCase(rol)) {
+                    lista.add(new Cliente(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("dni"),
+                        rs.getString("tipo_cliente")
+                    ));
+                } else if ("empleado".equalsIgnoreCase(rol)) {
+                    lista.add(new Empleado(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("dni"),
+                        rs.getString("turno"),
+                        rs.getDouble("salario")
+                    ));
+                } else {
+                    lista.add(new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("dni"),
+                        rol
+                    ));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
